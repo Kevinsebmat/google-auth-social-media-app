@@ -1,8 +1,10 @@
 import {getDocs, collection} from "firebase/firestore"
-import {db} from "../config/firebase";
+import {db} from "../../config/firebase";
 import {useState} from "react";
+import { useEffect } from "react";
+import { Post } from "./post";
 
-interface Post{
+export interface Post{
   id: string;
   description: string;
   userId: string;
@@ -19,9 +21,13 @@ export const Main = () => {
     setPostsList(data.docs.map((doc)=> ({...doc.data(), id: doc.id})) as Post[]);
 
   } 
+
+  useEffect(()=> {
+    getPosts();
+  }, []);
   
-  return
+  return(
   
-    <div>Home Page </div>
-  
+    <div> {postsList?.map((post)=><Post post={post} /> )} </div>
+  )
 }
